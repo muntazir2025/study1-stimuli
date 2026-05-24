@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Novara Store — Condition B</title>
+<style>
+:root{--s:1}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a1020;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+#vp{position:relative;background:white;overflow:hidden;border-radius:4px;box-shadow:0 12px 60px rgba(0,0,0,.7)}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transition:opacity .65s ease;pointer-events:none}
+.scr.on{opacity:1;pointer-events:all}
+
+/* ═══ SCREEN 1 ═══ */
+#s1{background:#f7f9fc}
+.s1top{background:#1e3a5f;color:white;padding:calc(var(--s)*10px) calc(var(--s)*28px);display:flex;align-items:center;gap:calc(var(--s)*9px);font-size:calc(var(--s)*14px);font-weight:600;letter-spacing:.8px;flex-shrink:0}
+.s1right{margin-left:auto;font-weight:400;font-size:calc(var(--s)*12px);opacity:.55}
+.s1body{flex:1;padding:calc(var(--s)*24px) calc(var(--s)*64px);display:flex;flex-direction:column;justify-content:center;gap:calc(var(--s)*14px)}
+.s1h{font-size:calc(var(--s)*22px);font-weight:700;color:#1e3a5f;padding-bottom:calc(var(--s)*12px);border-bottom:2px solid #dde6f0}
+.s1p{font-size:calc(var(--s)*15.5px);color:#374151;line-height:1.82}
+.s1p strong{color:#1e3a5f}
+
+/* ═══ SCREEN 2 ═══ */
+#s2{background:#eef2f7}
+.snav{background:#1e3a5f;color:white;display:flex;align-items:center;gap:calc(var(--s)*22px);padding:calc(var(--s)*10px) calc(var(--s)*28px);font-size:calc(var(--s)*13px);flex-shrink:0}
+.snav-brand{font-weight:700;font-size:calc(var(--s)*15px);letter-spacing:.8px}
+.snav-lk{opacity:.55;cursor:default}
+.snav-lk.act{opacity:1}
+.s2sub{padding:calc(var(--s)*9px) calc(var(--s)*30px) 0;font-size:calc(var(--s)*13px);color:#5a6b7e;flex-shrink:0}
+.s2deck{flex:1;display:flex;gap:calc(var(--s)*22px);padding:calc(var(--s)*8px) calc(var(--s)*30px) calc(var(--s)*14px)}
+.pc{flex:1;background:white;border-radius:8px;border:1.5px solid #dce5ef;box-shadow:0 2px 12px rgba(30,58,95,.07);display:flex;flex-direction:column;overflow:hidden}
+.pcimg{background:#f0f4f8;display:flex;justify-content:center;align-items:center;padding:calc(var(--s)*16px) calc(var(--s)*20px);border-bottom:1px solid #dce5ef;min-height:calc(var(--s)*100px)}
+.pcbody{flex:1;padding:calc(var(--s)*12px) calc(var(--s)*18px);display:flex;flex-direction:column}
+.pcbadge{display:inline-block;font-size:calc(var(--s)*11px);font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#2563eb;background:#eff6ff;padding:calc(var(--s)*2px) calc(var(--s)*7px);border-radius:3px;margin-bottom:calc(var(--s)*5px);width:fit-content}
+.pcname{font-size:calc(var(--s)*19px);font-weight:700;color:#1e293b;margin-bottom:calc(var(--s)*8px)}
+.pcsl{list-style:none;flex:1}
+.pcsl li{display:flex;gap:calc(var(--s)*9px);padding:calc(var(--s)*4px) 0;border-bottom:1px solid #f1f5f9;font-size:calc(var(--s)*13px);color:#374151}
+.sk{color:#94a3b8;font-size:calc(var(--s)*11.5px);width:calc(var(--s)*66px);flex-shrink:0;padding-top:1px}
+.pcprice{background:#1e3a5f;color:white;padding:calc(var(--s)*10px) calc(var(--s)*18px);display:flex;align-items:baseline;gap:calc(var(--s)*5px)}
+.pamt{font-size:calc(var(--s)*22px);font-weight:700}
+.punit{font-size:calc(var(--s)*12px);opacity:.7}
+
+/* ═══ SCREEN 3 ═══ */
+#s3{background:#eef2f7;align-items:center;justify-content:center}
+.s3box{background:white;border-radius:10px;border:2px solid #bfdbfe;box-shadow:0 4px 24px rgba(37,99,235,.1);padding:calc(var(--s)*34px) calc(var(--s)*60px);text-align:center}
+.s3txt{font-size:calc(var(--s)*22px);font-weight:600;color:#1e3a5f;margin-top:calc(var(--s)*12px)}
+
+/* ═══ SCREEN 4: Chat — HIGH ANTHROPOMORPHISM ═══ */
+#s4{flex-direction:column;background:#f8fafc}
+.crhd{background:#1e3a5f;color:white;padding:calc(var(--s)*10px) calc(var(--s)*24px);display:flex;align-items:center;gap:calc(var(--s)*12px);flex-shrink:0}
+.cr-avatar{width:calc(var(--s)*38px);height:calc(var(--s)*38px);border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.35);background:#e0e7ef}
+.crtitl{font-size:calc(var(--s)*15px);font-weight:600}
+.crsub{font-size:calc(var(--s)*11px);opacity:.55;margin-top:1px}
+.cron{margin-left:auto;display:flex;align-items:center;gap:calc(var(--s)*5px);font-size:calc(var(--s)*11px);opacity:.8}
+.odot{width:calc(var(--s)*7px);height:calc(var(--s)*7px);background:#4ade80;border-radius:50%}
+
+#msgs{flex:1;overflow-y:auto;padding:calc(var(--s)*14px) calc(var(--s)*70px);display:flex;flex-direction:column;gap:calc(var(--s)*4px);background:#f8fafc}
+#msgs::-webkit-scrollbar{width:4px}
+#msgs::-webkit-scrollbar-thumb{background:#c0d4e8;border-radius:2px}
+
+.bw{max-width:72%;display:flex;flex-direction:column;gap:2px;animation:pi .22s ease}
+.bw.bot{align-self:flex-start}
+.bw.usr{align-self:flex-end}
+@keyframes pi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.blabel{font-size:calc(var(--s)*11.5px);font-weight:600;margin-bottom:1px;padding:0 calc(var(--s)*4px);display:flex;align-items:center;gap:calc(var(--s)*5px)}
+.bw.usr .blabel{text-align:right;color:#3b82f6;justify-content:flex-end}
+.bw.bot .blabel{color:#1e6b52}
+.mini-av{width:calc(var(--s)*18px);height:calc(var(--s)*18px);border-radius:50%;overflow:hidden;flex-shrink:0}
+
+.bb{padding:calc(var(--s)*9px) calc(var(--s)*15px);font-size:calc(var(--s)*14px);line-height:1.62;word-break:break-word}
+.bb.bot{background:#e6f4ee;color:#1a2e26;border-radius:12px 12px 12px 3px}
+.bb.usr{background:#2563eb;color:white;border-radius:12px 12px 3px 12px}
+
+.bm{font-size:calc(var(--s)*10px);color:#94a3b8;display:flex;align-items:center;gap:3px;padding:0 calc(var(--s)*4px)}
+.bw.usr .bm{justify-content:flex-end}
+.tks{color:#60a5fa}
+
+#tind{display:none;align-self:flex-start;flex-direction:column;gap:2px;animation:pi .22s ease}
+#tind .blabel{font-size:calc(var(--s)*11.5px);font-weight:600;color:#1e6b52;padding:0 calc(var(--s)*4px);display:flex;align-items:center;gap:calc(var(--s)*5px)}
+.dots-wrap{display:flex;padding:calc(var(--s)*10px) calc(var(--s)*16px);background:#e6f4ee;border-radius:12px 12px 12px 3px;gap:calc(var(--s)*5px);align-items:center;width:fit-content}
+.dot{width:calc(var(--s)*6px);height:calc(var(--s)*6px);background:#3a8a68;border-radius:50%;animation:db 1.2s infinite}
+.dot:nth-child(2){animation-delay:.22s}
+.dot:nth-child(3){animation-delay:.44s}
+@keyframes db{0%,65%,100%{transform:translateY(0);opacity:.3}32%{transform:translateY(-4px);opacity:1}}
+
+.crinp{background:white;border-top:1px solid #dce5ef;padding:calc(var(--s)*9px) calc(var(--s)*24px);display:flex;align-items:center;gap:calc(var(--s)*9px);flex-shrink:0}
+#ibox{flex:1;padding:calc(var(--s)*8px) calc(var(--s)*16px);border:1.5px solid #d0d9e8;border-radius:22px;font-size:calc(var(--s)*13.5px);font-family:inherit;color:#374151;background:#f8fafc;outline:none;pointer-events:none;height:calc(var(--s)*36px);min-height:22px}
+.sbtn{width:calc(var(--s)*34px);height:calc(var(--s)*34px);background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;min-width:22px;min-height:22px}
+
+.pbar{position:absolute;bottom:0;left:0;height:3px;width:0%;background:#2563eb;z-index:100}
+@keyframes pba{from{width:0%}to{width:100%}}
+.pbar.run{animation:pba var(--dur) linear forwards}
+.lsv{display:block;height:auto}
+.mark-photo{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+#img-loader{position:absolute;inset:0;z-index:999;background:#0a1020;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:calc(var(--s)*14px);color:white;font-family:inherit}
+#img-loader.hidden{display:none}
+#img-loader h2{font-size:calc(var(--s)*18px);font-weight:600;color:#93c5fd}
+#img-loader p{font-size:calc(var(--s)*13px);opacity:.7;max-width:400px;text-align:center;line-height:1.6}
+#img-loader label{background:#2563eb;color:white;padding:calc(var(--s)*10px) calc(var(--s)*28px);border-radius:8px;font-size:calc(var(--s)*14px);font-weight:600;cursor:pointer;transition:background .2s}
+#img-loader label:hover{background:#1d4ed8}
+#img-loader input{display:none}
+</style>
+</head>
+<body>
+<div id="vp">
+
+<!-- Image loader overlay -->
+<div id="img-loader">
+  <h2>Load Mark's Avatar Photo</h2>
+  <p>Select the photo to use as Mark's avatar. On GitHub Pages this loads automatically from mark-avatar.png.</p>
+  <label for="av-file">Select Photo</label>
+  <input type="file" id="av-file" accept="image/*">
+</div>
+
+<!-- SCREEN 1: Instructions (identical) -->
+<div class="scr" id="s1">
+  <div class="s1top">
+    <svg style="width:calc(var(--s)*16px);height:calc(var(--s)*16px);flex-shrink:0" viewBox="0 0 20 20" fill="none"><rect x="1" y="2" width="18" height="12" rx="2" stroke="white" stroke-width="1.5" fill="none"/><rect x="4" y="5" width="8" height="1.5" rx=".5" fill="white" opacity=".7"/><rect x="4" y="8" width="12" height="1.5" rx=".5" fill="white" opacity=".5"/><path d="M5 14v3h10v-3" stroke="white" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>
+    <span>NOVARA STORE</span>
+    <span class="s1right">Customer Support Chat Available</span>
+  </div>
+  <div class="s1body">
+    <div class="s1h">Please Read the Following Instructions:</div>
+    <p class="s1p">Imagine you are shopping online for a laptop for everyday work and study. To do so, you are visiting an online shopping store website that offers a text-based customer-support chatbot to help you compare and choose between two laptop options.</p>
+    <p class="s1p">You need a laptop that provides reliable performance, good battery life, and good value for money. However, the available options involve trade-offs between battery life, screen size, processing speed, portability, everyday convenience, and price. Your goal is to choose the laptop that best balances these factors for your needs. You will review two laptop options and ask the chatbot for help.</p>
+    <p class="s1p">Please follow the conversation as if you were the person represented by <strong>"You"</strong>, trying to decide which laptop to buy.</p>
+  </div>
+  <div class="pbar" id="pb1"></div>
+</div>
+
+<!-- SCREEN 2: Products (identical) -->
+<div class="scr" id="s2">
+  <div class="snav">
+    <svg style="width:calc(var(--s)*15px);height:calc(var(--s)*15px);flex-shrink:0" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="9" rx="1.5" stroke="white" stroke-width="1.2"/><path d="M4 5.5h8M4 8h5" stroke="white" stroke-width="1" stroke-linecap="round" opacity=".7"/><path d="M3 11v2h10v-2" stroke="white" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+    <span class="snav-brand">NOVARA STORE</span>
+    <span class="snav-lk act">Laptops</span>
+    <span class="snav-lk">Accessories</span>
+    <span class="snav-lk">Deals</span>
+    <span class="snav-lk">Support</span>
+  </div>
+  <div class="s2sub">Laptop Comparison — Review available models below.</div>
+  <div class="s2deck">
+    <div class="pc">
+      <div class="pcimg"><svg class="lsv" style="width:calc(var(--s)*105px)" viewBox="0 0 110 72" fill="none"><rect x="9" y="2" width="92" height="52" rx="3.5" fill="#dde6f0" stroke="#94a3b8" stroke-width="1.5"/><rect x="13" y="6" width="84" height="44" rx="2" fill="#3d4f63"/><rect x="17" y="10" width="50" height="3" rx="1" fill="rgba(255,255,255,.22)"/><rect x="17" y="15" width="64" height="2.5" rx="1" fill="rgba(255,255,255,.14)"/><rect x="17" y="20" width="42" height="2.5" rx="1" fill="rgba(255,255,255,.12)"/><rect x="17" y="25" width="55" height="2.5" rx="1" fill="rgba(255,255,255,.08)"/><rect x="5" y="54" width="100" height="3" rx="1.5" fill="#94a3b8"/><path d="M3 57 Q3 70 13 70 L97 70 Q107 70 107 57 Z" fill="#dde6f0" stroke="#94a3b8" stroke-width="1"/><rect x="38" y="61" width="34" height="5" rx="2" fill="#9aadca" opacity=".7"/><rect x="19" y="58" width="68" height="1.5" rx=".5" fill="#94a3b8" opacity=".4"/></svg></div>
+      <div class="pcbody">
+        <span class="pcbadge">Product A</span>
+        <div class="pcname">Novara Flex 14</div>
+        <ul class="pcsl"><li><span class="sk">Processor</span>Intel Core i5 13th Gen</li><li><span class="sk">Memory</span>16GB RAM</li><li><span class="sk">Storage</span>512GB SSD</li><li><span class="sk">Display</span>14-inch</li><li><span class="sk">Battery</span>Up to 10 hours</li><li><span class="sk">Design</span>Lighter, more portable</li></ul>
+      </div>
+      <div class="pcprice"><span class="pamt">1,049</span><span class="punit">EUR</span></div>
+    </div>
+    <div class="pc">
+      <div class="pcimg"><svg class="lsv" style="width:calc(var(--s)*125px)" viewBox="0 0 128 74" fill="none"><rect x="5" y="2" width="118" height="52" rx="3.5" fill="#dde6f0" stroke="#94a3b8" stroke-width="1.5"/><rect x="9" y="6" width="110" height="44" rx="2" fill="#3d4f63"/><rect x="13" y="10" width="62" height="3" rx="1" fill="rgba(255,255,255,.22)"/><rect x="13" y="15" width="84" height="2.5" rx="1" fill="rgba(255,255,255,.14)"/><rect x="13" y="20" width="55" height="2.5" rx="1" fill="rgba(255,255,255,.12)"/><rect x="13" y="25" width="70" height="2.5" rx="1" fill="rgba(255,255,255,.08)"/><rect x="2" y="54" width="124" height="3" rx="1.5" fill="#94a3b8"/><path d="M0 57 Q0 72 12 72 L116 72 Q128 72 128 57 Z" fill="#dde6f0" stroke="#94a3b8" stroke-width="1"/><rect x="48" y="62.5" width="32" height="5" rx="2" fill="#9aadca" opacity=".7"/><rect x="14" y="58.5" width="100" height="1.5" rx=".5" fill="#94a3b8" opacity=".4"/></svg></div>
+      <div class="pcbody">
+        <span class="pcbadge">Product B</span>
+        <div class="pcname">Novara Edge 15</div>
+        <ul class="pcsl"><li><span class="sk">Processor</span>AMD Ryzen 7</li><li><span class="sk">Memory</span>16GB RAM</li><li><span class="sk">Storage</span>512GB SSD</li><li><span class="sk">Display</span>15.6-inch</li><li><span class="sk">Battery</span>Up to 7 hours</li><li><span class="sk">Design</span>Heavier</li></ul>
+      </div>
+      <div class="pcprice"><span class="pamt">749</span><span class="punit">EUR</span></div>
+    </div>
+  </div>
+  <div class="pbar" id="pb2"></div>
+</div>
+
+<!-- SCREEN 3: Reminder (identical) -->
+<div class="scr" id="s3">
+  <div class="s3box">
+    <svg style="width:calc(var(--s)*48px);height:calc(var(--s)*48px);display:block;margin:0 auto" viewBox="0 0 44 44" fill="none"><rect x="3" y="6" width="38" height="24" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><circle cx="14" cy="18" r="2.5" fill="#2563eb"/><circle cx="22" cy="18" r="2.5" fill="#2563eb"/><circle cx="30" cy="18" r="2.5" fill="#2563eb"/><path d="M15 30 L22 38 L29 30" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round"/></svg>
+    <div class="s3txt">Please follow the conversation now!</div>
+  </div>
+</div>
+
+<!-- SCREEN 4: Chat — HIGH ANTHROPOMORPHISM -->
+<div class="scr" id="s4">
+  <div class="crhd">
+    <div class="cr-avatar">
+      <svg viewBox="0 0 60 60" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect width="60" height="60" fill="#c8ddd3"/>
+        <ellipse cx="30" cy="18" rx="18" ry="14" fill="#4a3728"/>
+        <rect x="12" y="14" width="36" height="10" rx="2" fill="#4a3728"/>
+        <ellipse cx="30" cy="28" rx="15" ry="16" fill="#f0d0a8"/>
+        <ellipse cx="24" cy="26" rx="2" ry="2.2" fill="#3b2f20"/>
+        <ellipse cx="36" cy="26" rx="2" ry="2.2" fill="#3b2f20"/>
+        <circle cx="24.8" cy="25.2" r=".7" fill="white"/>
+        <circle cx="36.8" cy="25.2" r=".7" fill="white"/>
+        <path d="M20 22.5 Q24 20.5 27 22" stroke="#4a3728" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M33 22 Q36 20.5 40 22.5" stroke="#4a3728" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M30 28 Q28 32 29.5 33" stroke="#d4a87a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M24 35 Q30 40 36 35" stroke="#c47a5a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="14.5" cy="28" rx="3" ry="4" fill="#f0d0a8"/>
+        <ellipse cx="45.5" cy="28" rx="3" ry="4" fill="#f0d0a8"/>
+        <path d="M10 54 Q12 44 30 44 Q48 44 50 54 L50 60 L10 60 Z" fill="#3a7d62"/>
+        <path d="M25 44 L30 50 L35 44" stroke="#2d6350" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+    <div><div class="crtitl">Mark</div><div class="crsub">Shopping Assistant</div></div>
+    <div class="cron"><div class="odot"></div>Online</div>
+  </div>
+  <div id="msgs">
+    <div id="tind">
+      <div class="blabel"><div class="mini-av"><svg viewBox="0 0 60 60" width="100%" height="100%"><rect width="60" height="60" fill="#c8ddd3"/><ellipse cx="30" cy="18" rx="18" ry="14" fill="#4a3728"/><rect x="12" y="14" width="36" height="10" rx="2" fill="#4a3728"/><ellipse cx="30" cy="28" rx="15" ry="16" fill="#f0d0a8"/><ellipse cx="24" cy="26" rx="2" ry="2.2" fill="#3b2f20"/><ellipse cx="36" cy="26" rx="2" ry="2.2" fill="#3b2f20"/><path d="M24 35 Q30 40 36 35" stroke="#c47a5a" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M10 54 Q12 44 30 44 Q48 44 50 54 L50 60 L10 60 Z" fill="#3a7d62"/></svg></div> Mark</div>
+      <div class="dots-wrap"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+  </div>
+  <div class="crinp">
+    <input type="text" id="ibox" placeholder="Type a message...">
+    <div class="sbtn"><svg style="width:50%;height:50%" viewBox="0 0 18 18" fill="none"><path d="M16 2L8.5 9.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M16 2L11 16L8.5 9.5L2 7L16 2Z" fill="white"/></svg></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function resize(){const vp=document.getElementById('vp');const W=window.innerWidth,H=window.innerHeight;const R=16/9;let w=W,h=w/R;if(h>H){h=H;w=h*R;}vp.style.width=w+'px';vp.style.height=h+'px';document.documentElement.style.setProperty('--s',w/960);}
+window.addEventListener('resize',resize);resize();
+const on=id=>document.getElementById(id).classList.add('on');
+const off=id=>document.getElementById(id).classList.remove('on');
+async function runBar(id,ms){const el=document.getElementById(id);el.style.setProperty('--dur',ms+'ms');el.classList.add('run');await sleep(ms);}
+
+let miniAvSvg='<img class="mark-photo" src="mark-avatar.png" alt="Mark">';
+
+/* ═══ UPDATED Condition B Script ═══ */
+const CONV=[
+  {r:'bot',t:'Hi there \u{1F60A} I\'m Mark, your shopping assistant. How can I help you today?'},
+  {r:'usr',t:"Hi. I'm planning to buy a laptop, and I found two options that both seem interesting: the Novara Flex 14 and the Novara Edge 15."},
+  {r:'bot',t:'Hmm, I see.'},
+  {r:'usr',t:"I'm confused about which one to choose, and I'd appreciate some help deciding."},
+  {r:'bot',t:'Of course, I\'d be happy to help you think it through. Is the laptop for you, and what will you mainly use it for?'},
+  {r:'usr',t:"It's for me, mainly for study and everyday work like writing, browsing, online meetings, and regular academic tasks."},
+  {r:'bot',t:'Got it.'},
+  {r:'usr',t:"I'm not looking for anything extreme, but I do want something dependable for daily use."},
+  {r:'bot',t:'That makes sense. For that kind of use, battery life, value, portability, and long-term reliability are usually the big factors.'},
+  {r:'bot',t:'Which of these matter most to you, and is there anything from your previous laptop you want to avoid?'},
+  {r:'usr',t:"Battery life and value matter most to me. I use my laptop for long periods, so battery life affects my routine."},
+  {r:'bot',t:'Right, I can see why that would matter.'},
+  {r:'usr',t:"I do not want to pay extra unless it improves everyday use. My previous laptop became slow and the battery got worse over time. So I care more now about long-term reliability, not just specs on paper."},
+  {r:'bot',t:'Oh, I see. That past experience would definitely make reliability feel more important. What is making the choice difficult now?'},
+  {r:'usr',t:"The lower-priced option is tempting because of the 300 EUR difference, but I do not want to focus only on saving money. If I choose the cheaper option for the wrong reasons, then I have not really saved; I may have simply spent 750 EUR badly."},
+  {r:'bot',t:'I understand. What is your budget, and will you be carrying it often?'},
+  {r:'usr',t:"My budget is around 1,050 EUR and yes, I'll probably be carrying it most days, so portability matters."},
+  {r:'bot',t:'Right, portability should matter then. Has anyone influenced how you\'re thinking about this choice?'},
+  {r:'usr',t:"A sales assistant once told me that Intel often carries a premium because it is seen as more reliable. But practical day-to-day performance may not feel very different from a Ryzen 7 option."},
+  {r:'bot',t:'Hmm, interesting.'},
+  {r:'usr',t:"That made me question whether the extra price reflects real long-term value or just reassurance."},
+  {r:'bot',t:'That is a thoughtful way to look at it.'},
+  {r:'bot',t:'So if everyday performance is broadly similar in both models, the decision becomes more about battery life, portability, and peace of mind.'},
+  {r:'usr',t:'So what do you suggest?'},
+  {r:'bot',t:'If we compare the specifications of both, the Novara Flex 14 is a better match for your priorities. It stands out because of its lighter design and up to 10 hours of battery life.'},
+  {r:'bot',t:'It has a higher price, but it is still within your budget. The Novara Edge 15 is more attractive mainly for the lower upfront price and stronger processor.'},
+  {r:'bot',t:'So, the Novara Flex 14 seems like the better fit in your case.'},
+  {r:'usr',t:'Great! So, Novara Flex 14 it is!'},
+  {r:'bot',t:'Before you continue, was this comparison helpful? And what would make the decision easier?'},
+  {r:'usr',t:'Yes, it was helpful.'},
+  {r:'bot',t:"I'm glad it helped."},
+  {r:'usr',t:'It would be even better if the chatbot showed a short side-by-side comparison table to make the final review easier.'},
+  {r:'bot',t:'That is a useful suggestion. A side-by-side table could make the final comparison easier to review.'}
+];
+
+const msgsEl=document.getElementById('msgs');
+const tindEl=document.getElementById('tind');
+const iboxEl=document.getElementById('ibox');
+let mc=0;
+
+function scrollDown(){msgsEl.scrollTop=msgsEl.scrollHeight;}
+function timeStr(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+
+function addMsg(role,text){
+  const w=document.createElement('div');w.className='bw '+(role==='bot'?'bot':'usr');
+  const lbl=document.createElement('div');lbl.className='blabel';
+  if(role==='bot'){lbl.innerHTML='<div class="mini-av">'+miniAvSvg+'</div> Mark';}
+  else{lbl.textContent='You';}
+  w.appendChild(lbl);
+  const b=document.createElement('div');b.className='bb '+(role==='bot'?'bot':'usr');
+  b.textContent=text;w.appendChild(b);
+  if(role==='usr'){
+    const m=document.createElement('div');m.className='bm';const mid='bm'+(++mc);m.id=mid;m.textContent=timeStr();w.appendChild(m);
+    setTimeout(()=>{const el=document.getElementById(mid);if(el)el.innerHTML=timeStr()+' <span class="tks">✓✓</span>';},400);
+  }
+  msgsEl.insertBefore(w,tindEl);scrollDown();
+}
+
+function readMs(text){const wc=text.trim().split(/\s+/).length;return Math.max(2200,Math.min(5000,wc*330));}
+
+async function typeIn(text){
+  iboxEl.value='';iboxEl.placeholder='';
+  for(let i=0;i<text.length;i++){
+    iboxEl.value=text.slice(0,i+1);
+    let delay=72+(Math.random()*36-18);
+    const ch=text[i];
+    if(ch===' ')delay+=45+Math.random()*30;
+    else if('.,:;!?\''.includes(ch))delay+=100+Math.random()*60;
+    if(Math.random()<0.08)delay+=140+Math.random()*120;
+    await sleep(delay);
+  }
+  await sleep(500);iboxEl.value='';iboxEl.placeholder='Type a message...';
+}
+
+async function showTyping(ms){tindEl.style.display='flex';scrollDown();await sleep(ms);tindEl.style.display='none';}
+
+async function runChat(){
+  await sleep(900);
+  for(let i=0;i<CONV.length;i++){
+    const{r,t}=CONV[i];const next=CONV[i+1];
+    if(r==='bot'){await showTyping(1400);addMsg('bot',t);await sleep(readMs(t));}
+    else{await typeIn(t);addMsg('usr',t);await sleep(next&&next.r==='bot'?700:550);}
+  }
+  await sleep(7000);
+}
+
+async function main(){
+  await sleep(400);
+  on('s1');await runBar('pb1',22000);off('s1');await sleep(680);
+  on('s2');await runBar('pb2',16000);off('s2');await sleep(680);
+  on('s3');await sleep(4000);off('s3');await sleep(680);
+  on('s4');await runChat();
+}
+// Avatar loading logic
+function applyAvatar(src){
+  const ha=document.querySelector('.cr-avatar');
+  if(ha)ha.innerHTML='<img class="mark-photo" src="'+src+'" alt="Mark">';
+  const ta=document.querySelector('#tind .mini-av');
+  if(ta)ta.innerHTML='<img class="mark-photo" src="'+src+'" alt="Mark">';
+  miniAvSvg='<img class="mark-photo" src="'+src+'" alt="Mark">';
+}
+
+function hideLoader(){document.getElementById('img-loader').classList.add('hidden');}
+
+// Try auto-loading mark-avatar.png (works on GitHub Pages)
+const testImg=new Image();
+testImg.onload=function(){
+  applyAvatar('mark-avatar.png');
+  hideLoader();
+  main();
+};
+testImg.onerror=function(){
+  // Show file picker for artifact preview
+  document.getElementById('av-file').addEventListener('change',function(e){
+    const file=e.target.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      applyAvatar(ev.target.result);
+      hideLoader();
+      main();
+    };
+    reader.readAsDataURL(file);
+  });
+};
+testImg.src='mark-avatar.png';
+</script>
+</body>
+</html>
